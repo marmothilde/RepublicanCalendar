@@ -37,13 +37,25 @@ public class RepublicanCalendar {
 
 	}
 
+	/**
+	 * Default constructor <br>
+	 * Return an instance of ReplublicanCalendar that's equal to the REFERENCE_DATE
+	 * (or EPOCH) of the calendar (september 22, 1792)
+	 */
 	public RepublicanCalendar() {
-
 		this.dayNumber = 1;
-		this.month = RepublicanMonths.getByNumber(1);
+		this.month = RepublicanMonths.VENDEMIAIRE;
 		this.year = 1;
 	}
 
+	/**
+	 * Convert a date into it's representation in the Republican Calendar<br>
+	 * if the date is beyond january 1st, 1806, the date is just an guess of what it
+	 * could have been.
+	 * 
+	 * @param date the date to convert
+	 * @return
+	 */
 	public static RepublicanCalendar convertDateToRepublicanCalendar(LocalDate date) {
 
 		long daysBetween = ChronoUnit.DAYS.between(REFERENCE_DATE, date);
@@ -54,7 +66,11 @@ public class RepublicanCalendar {
 
 	}
 
-	private boolean isYearSextile() {
+	/**
+	 * @return true if the year corespond in a leap year in the Republican Calendar,
+	 *         false otherwise.
+	 */
+	public boolean isYearSextile() {
 		return this.year % 4 == 0;
 	}
 
@@ -86,12 +102,21 @@ public class RepublicanCalendar {
 
 	}
 
+	/**
+	 * Return a String that represent the date in the Republican Calendar <br>
+	 * Example : 9 VENDEMIAIRE de l'An CCXXXIII (corresponding to october 2,
+	 * 2024)<br>
+	 * If the date is one of the "Sans Culottides" (i.e the five or six days at the
+	 * end of the year without a month, the method will return the name of the day
+	 * instead of the number<br>
+	 * Example : Jour des Récompenses de l'An XI (September 22, 1803
+	 */
 	public String toString() {
 		if (this.month.equals(RepublicanMonths.SANSCULOTTIDES)) {
 			return "Jour " + SansCulottide.getByNumber(this.getDayNumber()).toString() + " de l'An "
-					+ toRoman(this.year) + " (" + this.year + ")";
+					+ toRoman(this.year);
 		}
-		return this.dayNumber + " " + this.month.name() + " de l'An " + toRoman(this.year) + " (" + this.year + ")";
+		return this.dayNumber + " " + this.month.name() + " de l'An " + toRoman(this.year);
 	}
 
 	private String toRoman(int year) {
@@ -107,7 +132,7 @@ public class RepublicanCalendar {
 	public static void main(String[] args) {
 
 		Date start = new Date();
-		LocalDate date = LocalDate.of(2024, Month.OCTOBER, 2);
+		LocalDate date = LocalDate.of(1803, Month.SEPTEMBER, 23);
 		System.out.println(RepublicanCalendar.convertDateToRepublicanCalendar(date).toString());
 
 		System.out.println((System.currentTimeMillis() - start.getTime()));
