@@ -67,11 +67,11 @@ public class RepublicanCalendar {
 	}
 
 	/**
-	 * @return true if the year corespond in a leap year in the Republican Calendar,
-	 *         false otherwise.
+	 * @return true if the year correspond in a leap year in the Republican
+	 *         Calendar, false otherwise.
 	 */
 	public boolean isYearSextile() {
-		return this.year % 4 == 0;
+		return (this.year + 1) % 4 == 0;
 	}
 
 	private static RepublicanCalendar addDays(long numberOfDays) {
