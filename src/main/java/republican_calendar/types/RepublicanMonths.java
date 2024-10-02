@@ -24,4 +24,38 @@ public enum RepublicanMonths {
 		return null;
 	}
 
+	public String toString() {
+		switch (this) {
+		case BRUMAIRE:
+			return "Brumaire";
+		case FLOREAL:
+			return "Floréal";
+		case FRIMAIRE:
+			return "Frimaire";
+		case FRUCTIDOR:
+			return "Fructidor";
+		case GERMINAL:
+			return "Germinal";
+		case MESSIDOR:
+			return "Messidor";
+		case NIVOSE:
+			return "Nivôse";
+		case PLUVIOSE:
+			return "Pluviôse";
+		case PRAIRIAL:
+			return "Prairial";
+		case SANSCULOTTIDES:
+			return "Jour Intercallaire";
+		case THERMIDOR:
+			return "Thermidor";
+		case VENDEMIAIRE:
+			return "Vendémiaire";
+		case VENTOSE:
+			return "Ventôse";
+		default:
+			return "";
+
+		}
+	}
+
 }

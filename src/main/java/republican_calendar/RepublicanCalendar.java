@@ -116,7 +116,7 @@ public class RepublicanCalendar {
 			return "Jour " + SansCulottide.getByNumber(this.getDayNumber()).toString() + " de l'An "
 					+ toRoman(this.year);
 		}
-		return this.dayNumber + " " + this.month.name() + " de l'An " + toRoman(this.year);
+		return this.dayNumber + " " + this.month + " de l'An " + toRoman(this.year);
 	}
 
 	private String toRoman(int year) {
@@ -132,7 +132,7 @@ public class RepublicanCalendar {
 	public static void main(String[] args) {
 
 		Date start = new Date();
-		LocalDate date = LocalDate.of(1803, Month.SEPTEMBER, 23);
+		LocalDate date = LocalDate.of(2024, Month.OCTOBER, 2);
 		System.out.println(RepublicanCalendar.convertDateToRepublicanCalendar(date).toString());
 
 		System.out.println((System.currentTimeMillis() - start.getTime()));
