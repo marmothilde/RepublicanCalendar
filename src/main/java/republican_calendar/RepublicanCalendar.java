@@ -5,6 +5,7 @@ import java.time.Month;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.TreeMap;
+import java.util.zip.DataFormatException;
 
 import republican_calendar.types.RepublicanMonths;
 import republican_calendar.types.SansCulottide;
@@ -48,6 +49,22 @@ public class RepublicanCalendar {
 		this.year = 1;
 	}
 
+	public RepublicanCalendar(int year, RepublicanMonths month, int day) throws DataFormatException {
+		if (month.equals(RepublicanMonths.SANSCULOTTIDES) && day > 5) {
+			if (RepublicanCalendar.isYearSextile(year) && day > 6) {
+				throw new DataFormatException(
+						"The Sans culottides only have 5 days (6 if it's a sextile year). The year " + year
+								+ (isYearSextile(year) ? " is " : " is not ") + " sextile");
+			}
+		}
+		if (day > 30) {
+			throw new DataFormatException("Month only have 30 days");
+		}
+		this.dayNumber = day;
+		this.month = month;
+		this.year = year;
+	}
+
 	/**
 	 * Convert a date into it's representation in the Republican Calendar<br>
 	 * if the date is beyond january 1st, 1806, the date is just an guess of what it
@@ -63,7 +80,28 @@ public class RepublicanCalendar {
 		RepublicanCalendar result = addDays(daysBetween);
 
 		return result;
+	}
 
+	/**
+	 * Compare two RepublicanCalendar
+	 * 
+	 * @param rc
+	 * @return 0 if the two dates are equale <br>
+	 *         an int superior to 0 if the date given in parameter is after than the
+	 *         other<br>
+	 *         an int inferior to 0 if the date given in parameter is before than
+	 *         the other<br>
+	 * 
+	 */
+	public int compareTo(RepublicanCalendar rc) {
+		int cmp = (this.year - rc.year);
+		if (cmp == 0) {
+			cmp = (this.month.getMonthNumber() - rc.month.getMonthNumber());
+			if (cmp == 0) {
+				cmp = (this.dayNumber - rc.dayNumber);
+			}
+		}
+		return cmp;
 	}
 
 	/**
@@ -71,7 +109,11 @@ public class RepublicanCalendar {
 	 *         Calendar, false otherwise.
 	 */
 	public boolean isYearSextile() {
-		return (this.year + 1) % 4 == 0;
+		return isYearSextile(this.year);
+	}
+
+	public static boolean isYearSextile(int year) {
+		return (year + 1) % 4 == 0;
 	}
 
 	private static RepublicanCalendar addDays(long numberOfDays) {
@@ -109,7 +151,7 @@ public class RepublicanCalendar {
 	 * If the date is one of the "Sans Culottides" (i.e the five or six days at the
 	 * end of the year without a month, the method will return the name of the day
 	 * instead of the number<br>
-	 * Example : Jour des Récompenses de l'An XI (September 22, 1803
+	 * Example : Jour des Récompenses de l'An XI (September 22, 1803)
 	 */
 	public String toString() {
 		if (this.month.equals(RepublicanMonths.SANSCULOTTIDES)) {
@@ -132,7 +174,7 @@ public class RepublicanCalendar {
 	public static void main(String[] args) {
 
 		Date start = new Date();
-		LocalDate date = LocalDate.of(2024, Month.OCTOBER, 2);
+		LocalDate date = LocalDate.of(1791, Month.SEPTEMBER, 21);
 		System.out.println(RepublicanCalendar.convertDateToRepublicanCalendar(date).toString());
 
 		System.out.println((System.currentTimeMillis() - start.getTime()));
