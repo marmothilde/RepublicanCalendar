@@ -50,15 +50,18 @@ public class RepublicanCalendar {
 	}
 
 	public RepublicanCalendar(int year, RepublicanMonths month, int day) throws DataFormatException {
+		if (day <= 0 || month == null) {
+			throw new DataFormatException("Day must be superior to 0 ans month must be not null");
+		}
+		if (day > 30) {
+			throw new DataFormatException("Month only have 30 days");
+		}
 		if (month.equals(RepublicanMonths.SANSCULOTTIDES) && day > 5) {
-			if (RepublicanCalendar.isYearSextile(year) && day > 6) {
+			if (!RepublicanCalendar.isYearSextile(year) || day > 6) {
 				throw new DataFormatException(
 						"The Sans culottides only have 5 days (6 if it's a sextile year). The year " + year
 								+ (isYearSextile(year) ? " is " : " is not ") + " sextile");
 			}
-		}
-		if (day > 30) {
-			throw new DataFormatException("Month only have 30 days");
 		}
 		this.dayNumber = day;
 		this.month = month;
@@ -174,7 +177,7 @@ public class RepublicanCalendar {
 	public static void main(String[] args) {
 
 		Date start = new Date();
-		LocalDate date = LocalDate.of(1791, Month.SEPTEMBER, 21);
+		LocalDate date = LocalDate.of(2024, Month.OCTOBER, 3);
 		System.out.println(RepublicanCalendar.convertDateToRepublicanCalendar(date).toString());
 
 		System.out.println((System.currentTimeMillis() - start.getTime()));

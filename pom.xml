@@ -1,8 +1,24 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE project>
+<project xmlns="https://maven.apache.org/POM/4.0.0" xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.marmothilde</groupId>
   <artifactId>republican_calendar</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>RepublicanCalendar</name>
-  <description>A better way to store a date, using the powerful Republican Calendar, used diring the first French Republic</description>
+  <description>A better way to store a date, using the powerful Republican Calendar, used during the first French Republic</description>
+  
+  <properties>
+     <maven.compiler.source>23</maven.compiler.source>
+     <maven.compiler.target>23</maven.compiler.target>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>5.11.0-M2</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 </project>
