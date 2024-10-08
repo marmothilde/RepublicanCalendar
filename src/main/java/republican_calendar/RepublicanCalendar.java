@@ -5,8 +5,8 @@ import java.time.Month;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.TreeMap;
-import java.util.zip.DataFormatException;
 
+import republican_calendar.exception.RepublicanCalendarException;
 import republican_calendar.types.RepublicanMonths;
 import republican_calendar.types.SansCulottide;
 
@@ -49,24 +49,43 @@ public class RepublicanCalendar {
 		this.year = 1;
 	}
 
-	public RepublicanCalendar(int year, RepublicanMonths month, int day) throws DataFormatException {
-		if (day <= 0 || month == null || year == 0) {
-			throw new DataFormatException(
-					"Day must be superior to 0 ans month must be not null and there is no year 0");
-		}
-		if (day > 30) {
-			throw new DataFormatException("Month only have 30 days");
-		}
-		if (month.equals(RepublicanMonths.SANSCULOTTIDES) && day > 5) {
-			if (!RepublicanCalendar.isYearSextile(year) || day > 6) {
-				throw new DataFormatException(
-						"The Sans culottides only have 5 days (6 if it's a sextile year). The year " + year
-								+ (isYearSextile(year) ? " is " : " is not ") + " sextile");
-			}
-		}
+	private RepublicanCalendar(int year, RepublicanMonths month, int day) {
 		this.dayNumber = day;
 		this.month = month;
 		this.year = year;
+	}
+
+	/**
+	 * Return an instance of RepublicanCalendar
+	 * @param year
+	 * @param month
+	 * @param day
+	 * @return
+	 * @throws RepublicanCalendarException if the value of any field is out of range,
+	 *  or if the day-of-month is invalid for the month-year
+	 */
+	public static RepublicanCalendar of(int year, RepublicanMonths month, int day) throws RepublicanCalendarException {
+		if (month == null) {
+			throw new RepublicanCalendarException("Month must be non-null");
+		}
+		validateDate(year, month.getMonthNumber(), day);
+		return new RepublicanCalendar(year, month, day);
+	}
+
+	private static void validateDate(int year, int month, int day) throws RepublicanCalendarException {
+
+		if (day <= 0 || RepublicanMonths.getByNumber(month) == null || year == 0) {
+			throw new RepublicanCalendarException("Day must be superior to 0 ans month must be between 1 and 13 and there is no year 0");
+		}
+		if (day > 30) {
+			throw new RepublicanCalendarException("Month only have 30 days");
+		}
+		if (RepublicanMonths.getByNumber(month).equals(RepublicanMonths.SANSCULOTTIDES) && day > 5) {
+			if (!RepublicanCalendar.isYearSextile(year) || day > 6) {
+				throw new RepublicanCalendarException("The Sans culottides only have 5 days (6 if it's a sextile year). The year "
+						+ year + (isYearSextile(year) ? " is " : " is not ") + " sextile");
+			}
+		}
 	}
 
 	/**
