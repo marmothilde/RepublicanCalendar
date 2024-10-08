@@ -46,10 +46,10 @@ public class RepublicanCalendarTests {
 		assertEquals(RepublicanMonths.VENDEMIAIRE, rc.getMonth());
 		assertEquals(1, rc.getYear());
 
-		date = LocalDate.of(2024, Month.OCTOBER, 3);
+		date = LocalDate.of(2024, Month.OCTOBER, 7);
 		rc = RepublicanCalendar.convertDateToRepublicanCalendar(date);
 
-		assertEquals(10, rc.getDayNumber());
+		assertEquals(16, rc.getDayNumber());
 		assertEquals(RepublicanMonths.VENDEMIAIRE, rc.getMonth());
 		assertEquals(233, rc.getYear());
 	}

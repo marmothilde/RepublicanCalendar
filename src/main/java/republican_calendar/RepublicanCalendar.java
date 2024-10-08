@@ -50,8 +50,9 @@ public class RepublicanCalendar {
 	}
 
 	public RepublicanCalendar(int year, RepublicanMonths month, int day) throws DataFormatException {
-		if (day <= 0 || month == null) {
-			throw new DataFormatException("Day must be superior to 0 ans month must be not null");
+		if (day <= 0 || month == null || year == 0) {
+			throw new DataFormatException(
+					"Day must be superior to 0 ans month must be not null and there is no year 0");
 		}
 		if (day > 30) {
 			throw new DataFormatException("Month only have 30 days");
@@ -116,6 +117,11 @@ public class RepublicanCalendar {
 	}
 
 	public static boolean isYearSextile(int year) {
+		if (year >= 18 && String.valueOf(year).endsWith("00") && !(year % 400 == 0)) {
+			return false;
+		} else if (year >= 18) {
+			return year % 4 == 0;
+		}
 		return (year + 1) % 4 == 0;
 	}
 
@@ -156,12 +162,18 @@ public class RepublicanCalendar {
 	 * instead of the number<br>
 	 * Example : Jour des Récompenses de l'An XI (September 22, 1803)
 	 */
+	@Override
 	public String toString() {
 		if (this.month.equals(RepublicanMonths.SANSCULOTTIDES)) {
 			return "Jour " + SansCulottide.getByNumber(this.getDayNumber()).toString() + " de l'An "
 					+ toRoman(this.year);
 		}
 		return this.dayNumber + " " + this.month + " de l'An " + toRoman(this.year);
+	}
+
+	public boolean equals(RepublicanCalendar rc) {
+		return this.compareTo(rc) == 0;
+
 	}
 
 	private String toRoman(int year) {
@@ -177,7 +189,7 @@ public class RepublicanCalendar {
 	public static void main(String[] args) {
 
 		Date start = new Date();
-		LocalDate date = LocalDate.of(2024, Month.OCTOBER, 3);
+		LocalDate date = LocalDate.of(2024, Month.OCTOBER, 7);
 		System.out.println(RepublicanCalendar.convertDateToRepublicanCalendar(date).toString());
 
 		System.out.println((System.currentTimeMillis() - start.getTime()));
